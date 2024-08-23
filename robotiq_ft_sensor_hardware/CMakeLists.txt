@@ -51,12 +51,6 @@ ament_target_dependencies(robotiq_ft_sensor_standalone_node
                           ${THIS_PACKAGE_INCLUDE_DEPENDS})
 target_link_libraries(robotiq_ft_sensor_standalone_node robotiq_ft_sensor)
 
-add_executable(test_robotiq_ft_sensor_node
-               nodes/test_robotiq_ft_sensor_node.cpp)
-ament_target_dependencies(test_robotiq_ft_sensor_node
-                          ${THIS_PACKAGE_INCLUDE_DEPENDS})
-target_link_libraries(test_robotiq_ft_sensor_node robotiq_ft_sensor)
-
 add_executable(test_add_wrench_pub nodes/test_add_wrench_pub.cpp)
 ament_target_dependencies(test_add_wrench_pub ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
@@ -72,7 +66,7 @@ install(
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(TARGETS robotiq_ft_sensor_standalone_node test_robotiq_ft_sensor_node
+install(TARGETS robotiq_ft_sensor_standalone_node
                 test_add_wrench_pub RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY config launch DESTINATION share/${PROJECT_NAME})
