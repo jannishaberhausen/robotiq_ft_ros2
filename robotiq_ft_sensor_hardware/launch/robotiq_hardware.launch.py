@@ -44,6 +44,7 @@ def launch_setup(context, *args, **kwargs):
             " ",
             "max_retries:=",
             max_retries,
+            " ",
             "read_rate:=",
             read_rate,
             " ",
@@ -53,14 +54,6 @@ def launch_setup(context, *args, **kwargs):
         ]
     )
     robot_description = {"robot_description": robot_description_content}
-
-    rviz_config_file = PathJoinSubstitution(
-        [
-            FindPackageShare(description_package.perform(context)),
-            "launch",
-            "view_robot.rviz",
-        ]
-    )
 
     # joint_state_publisher_node = Node(
     #     package="joint_state_publisher_gui",
@@ -75,14 +68,22 @@ def launch_setup(context, *args, **kwargs):
         parameters=[robot_description],
     )
 
-    # no namespace
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-    )
+    # # RViz
+    # rviz_config_file = PathJoinSubstitution(
+    #     [
+    #         FindPackageShare(description_package.perform(context)),
+    #         "launch",
+    #         "view_robot.rviz",
+    #     ]
+    # )
+    # # no namespace
+    # rviz_node = Node(
+    #     package="rviz2",
+    #     executable="rviz2",
+    #     name="rviz2",
+    #     output="log",
+    #     arguments=["-d", rviz_config_file],
+    # )
 
     # ROS2 Control
 
@@ -115,7 +116,7 @@ def launch_setup(context, *args, **kwargs):
 
     nodes = [
         robot_state_publisher_node,
-        rviz_node,
+        # rviz_node,
         control_node,
         robotiq_force_torque_sensor_broadcaster_spawner,
     ]
