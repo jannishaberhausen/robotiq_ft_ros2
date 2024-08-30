@@ -55,12 +55,12 @@ ros2 launch robotiq_ft_sensor_hardware ft_sensor_standalone.launch.py
 ros2 launch robotiq_ft_sensor_hardware robotiq_hardware.launch.py namespace:=robotiq
 ```
 
-### Fake Mode
-If you do not have the actual hardware but want to test your system a **fake mode** parameter is used that will bypass the actual connection to the hardware
+### Fake Hardware
+If you do not have the actual hardware but want to test your system a **fake hardware** parameter is used that will bypass the actual connection to the hardware
 
 ```bash
 # Fake pass through
-ros2 launch robotiq_ft_sensor_hardware robotiq_hardware.launch.py use_fake_mode:=true namespace:=robotiq
+ros2 launch robotiq_ft_sensor_hardware robotiq_hardware.launch.py fake_hardware:=true namespace:=robotiq
 ```
 
 ## Controller configuration
@@ -103,7 +103,7 @@ The only requirement for the hardware interfaces to be dynamically loaded and ru
 ```xml
   <xacro:macro name="robotiq_fts_ros2_control" params="
     name
-    use_fake_mode:=false
+    fake_hardware:=false
     max_retries:=1
     read_rate:=10
     ftdi_id:=''
@@ -111,7 +111,7 @@ The only requirement for the hardware interfaces to be dynamically loaded and ru
     <ros2_control name="${name}robotiq_ft_sensor" type="sensor">
       <hardware>
           <plugin>robotiq_ft_sensor_hardware/RobotiqFTSensorHardware</plugin>
-          <param name="use_fake_mode">${use_fake_mode}</param>
+          <param name="fake_hardware">${fake_hardware}</param>
           <param name="max_retries">${max_retries}</param>
           <param name="read_rate">${read_rate}</param>
           <param name="ftdi_id">${ftdi_id}</param>
@@ -138,7 +138,7 @@ Example to use the robotiq fts hardware interface in combination with your robot
 
   <!-- args -->
   <xacro:arg name="name" default="robotiq_ft_sensor"/> <!-- your robot name -->
-  <xacro:arg name="use_fake_mode" default="false"/>
+  <xacro:arg name="fake_hardware" default="false"/>
   <xacro:arg name="max_retries" default="100"/>
   <xacro:arg name="read_rate" default="10"/>
   <xacro:arg name="ftdi_id" default=""/>
@@ -150,7 +150,7 @@ Example to use the robotiq fts hardware interface in combination with your robot
   <!-- robotiq sensor hardware -->
   <xacro:robotiq_fts_ros2_control
       name="$(arg name)"
-      use_fake_mode="$(arg use_fake_mode)"
+      fake_hardware="$(arg fake_hardware)"
       max_retries="$(arg max_retries)"
       read_rate="$(arg read_rate)"
       ftdi_id="$(arg ftdi_id)"

@@ -22,7 +22,7 @@ def launch_setup(context, *args, **kwargs):
     max_retries = LaunchConfiguration("max_retries")
     read_rate = LaunchConfiguration("read_rate")
     ftdi_id = LaunchConfiguration("ftdi_id")
-    use_fake_mode = LaunchConfiguration("use_fake_mode")
+    fake_hardware = LaunchConfiguration("fake_hardware")
 
     # Get URDF via xacro
     robot_description_content = Command(
@@ -39,8 +39,8 @@ def launch_setup(context, *args, **kwargs):
             "tf_prefix:=",
             tf_prefix,
             " ",
-            "use_fake_mode:=",
-            use_fake_mode,
+            "fake_hardware:=",
+            fake_hardware,
             " ",
             "max_retries:=",
             max_retries,
@@ -157,7 +157,7 @@ def generate_launch_description():
     declared_arguments.append(DeclareLaunchArgument("ftdi_id", default_value="_"))
 
     declared_arguments.append(
-        DeclareLaunchArgument("use_fake_mode", default_value="false")
+        DeclareLaunchArgument("fake_hardware", default_value="false")
     )
 
     return LaunchDescription(

@@ -45,8 +45,8 @@ hardware_interface::CallbackReturn RobotiqFTSensorHardware::on_init(const hardwa
   }
 
   // parameters
-  use_fake_mode_ =
-      info_.hardware_parameters["use_fake_mode"] == "True" || info_.hardware_parameters["use_fake_mode"] == "true";
+  fake_hardware_ =
+      info_.hardware_parameters["fake_hardware"] == "True" || info_.hardware_parameters["fake_hardware"] == "true";
   max_retries_ = std::stoi(info_.hardware_parameters["max_retries"]);
   read_rate_ = std::stoi(info_.hardware_parameters["read_rate"]);
   ftdi_id_ = info_.hardware_parameters["ftdi_id"];
@@ -68,7 +68,7 @@ hardware_interface::CallbackReturn RobotiqFTSensorHardware::on_init(const hardwa
     return CallbackReturn::ERROR;
   }
 
-  RCLCPP_INFO(logger_, "Parameter : use_fake_mode -> %d", use_fake_mode_);
+  RCLCPP_INFO(logger_, "Parameter : fake_hardware -> %d", fake_hardware_);
   RCLCPP_INFO(logger_, "Parameter : max_retries -> %d", max_retries_);
   RCLCPP_INFO(logger_, "Parameter : read_rate -> %d", read_rate_);
   RCLCPP_INFO(logger_, "Parameter : ftdi_id -> %s", ftdi_id_.c_str());
@@ -91,7 +91,7 @@ std::vector<hardware_interface::StateInterface> RobotiqFTSensorHardware::export_
 
 void RobotiqFTSensorHardware::read_background()
 {
-  if (!use_fake_mode_)
+  if (!fake_hardware_)
   {
     ret_ = sensor_state_machine();
     if (ret_ == -1)
@@ -124,7 +124,7 @@ hardware_interface::CallbackReturn
 RobotiqFTSensorHardware::on_activate(const rclcpp_lifecycle::State& /*previous_state*/)
 {
   RCLCPP_INFO(logger_, "Activating ...please wait...");
-  if (!use_fake_mode_)
+  if (!fake_hardware_)
   {
     // Connect
     if (!ftdi_id_.empty())
@@ -203,7 +203,7 @@ RobotiqFTSensorHardware::on_deactivate(const rclcpp_lifecycle::State& /*previous
 hardware_interface::return_type RobotiqFTSensorHardware::read(const rclcpp::Time& /*time*/,
                                                               const rclcpp::Duration& /*period*/)
 {
-  if (use_fake_mode_)
+  if (fake_hardware_)
   {
     hw_sensor_states_[0] = 0.0;
     hw_sensor_states_[1] = 0.0;
