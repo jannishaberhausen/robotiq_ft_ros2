@@ -57,7 +57,7 @@
 
          <!-- Connect force sensor with mounting/coupling plate -->
         <joint name="${tf_prefix}ft300_mounting_plate" type="fixed">
-            <origin xyz="0 0 0.0415" rpy="0 ${pi} 0"/> 
+            <origin xyz="0 0 0.0415" rpy="0 ${pi} ${pi}"/> 
             <parent link="${tf_prefix}ft300_mounting_plate" />
             <child link="${tf_prefix}ft300_sensor" />
         </joint>
