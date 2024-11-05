@@ -205,8 +205,11 @@ private:
       return;
     }
 
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wstringop-truncation"
     strncpy(get_or_set, &buff[0], 3);
     strncpy(nom_var, &buff[4], strlen(buff) - 3);
+    #pragma GCC diagnostic pop
 
     if (strstr(get_or_set, "GET"))
     {
